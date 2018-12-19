@@ -26,9 +26,9 @@ namespace InfoCannon {
 
         private void Form1_Load(object sender, EventArgs e) {
             List<Item> items = new List<Item>();
-            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=3&offset=1" });
-            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=3&offset=1" });
-            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=3&offset=1" });
+            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=25&offset=10" });
+            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=25&offset=0" });
+            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=25&offset=0" });
             cmbSource.DataSource = items;
             cmbSource.DisplayMember = "Text";
             cmbSource.ValueMember = "Value";
@@ -37,11 +37,18 @@ namespace InfoCannon {
             UserSettings settings = UserSettings.Load();
             txtAccessKey.Text = settings.accessCode;
             txtPageID.Text = settings.pageId;
+            dpVideosFrom.Value = DateTime.Now;
 
-            //Post to Facebook
+            //Init Facebook Interface
             facebookClient = new FacebookClient();
             facebookService = new FacebookService(facebookClient);
-            //var getAccountTask = facebookService.GetAccountAsync(txtAccessKey.Text);
+        }
+
+        public class VideoToPost {
+            public string title { get; set; }
+            public string url { get; set; }
+            public string summary { get; set; }
+            public DateTime createdAt { get; set; }
         }
 
         private async void btnProcess_Click(object sender, EventArgs e) {
@@ -53,22 +60,33 @@ namespace InfoCannon {
                 dynamic parsed = JsonConvert.DeserializeObject<dynamic>((string)response);
                 SetStatus("Posting Videos...");
                 int intCount = 0;
+
+                //Collect videos for today
+                List<VideoToPost> QueuedVideos = new List<VideoToPost>();
                 foreach (var data in parsed.videos) {
+                    
+                    DateTime createdAt = data?.createdAt;
+                    if ((DateTime)createdAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null) {
+                        QueuedVideos.Add(new VideoToPost() {
+                            title = data?.title,
+                            url = data?.directUrl,
+                            summary = data?.summary,
+                            createdAt = createdAt
+                        });
+                    }
+                }
+
+                //Post the Videos
+                foreach (VideoToPost video in QueuedVideos.OrderByDescending(x=>x.createdAt)) {
                     intCount++;
-                    string title = data?.title;
-                    string URL = data?.directUrl;
-                    string summary = data?.summary;
-                    SetStatus("Posting Video..." + intCount.ToString() + " of " + parsed.videos.Count.ToString());
+                    SetStatus("Posting Video..." + intCount.ToString() + " of " + QueuedVideos.Count.ToString());
                     List<attached_media> UploadedMedia = new List<attached_media>();
-                    var postOnWallTask = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, summary, "", UploadedMedia, URL);
+                    var postOnWallTask = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, video.summary, "", UploadedMedia, video.url);
                     Task.WaitAll(postOnWallTask);
                 }
 
-                SetStatus(parsed.videos.Count.ToString() + " Videos Posted!");
+                SetStatus(QueuedVideos.ToString() + " Videos Posted!");
             });
-
-            //client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(loadHTMLCallback);
-            //client.DownloadStringAsync(new Uri(cmbSource.SelectedValue.ToString()));
         }
 
         private void btnSaveSettings_Click(object sender, EventArgs e) {

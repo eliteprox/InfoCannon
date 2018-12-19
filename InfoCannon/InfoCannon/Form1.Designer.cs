@@ -37,6 +37,8 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
             this.btnTest = new System.Windows.Forms.Button();
+            this.dpVideosFrom = new System.Windows.Forms.DateTimePicker();
+            this.label4 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -84,7 +86,7 @@
             // 
             // btnProcess
             // 
-            this.btnProcess.Location = new System.Drawing.Point(182, 228);
+            this.btnProcess.Location = new System.Drawing.Point(164, 236);
             this.btnProcess.Name = "btnProcess";
             this.btnProcess.Size = new System.Drawing.Size(115, 23);
             this.btnProcess.TabIndex = 5;
@@ -100,6 +102,7 @@
             this.statusStrip1.Location = new System.Drawing.Point(0, 344);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(355, 22);
+            this.statusStrip1.SizingGrip = false;
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -147,11 +150,29 @@
             this.btnTest.UseVisualStyleBackColor = true;
             this.btnTest.Click += new System.EventHandler(this.btnTest_Click);
             // 
+            // dpVideosFrom
+            // 
+            this.dpVideosFrom.Location = new System.Drawing.Point(93, 210);
+            this.dpVideosFrom.Name = "dpVideosFrom";
+            this.dpVideosFrom.Size = new System.Drawing.Size(186, 20);
+            this.dpVideosFrom.TabIndex = 11;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(22, 216);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 12;
+            this.label4.Text = "Videos From";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(355, 366);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.dpVideosFrom);
             this.Controls.Add(this.btnTest);
             this.Controls.Add(this.cmbSource);
             this.Controls.Add(this.label3);
@@ -162,7 +183,10 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtPageID);
             this.Controls.Add(this.txtAccessKey);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Infowars Video Uploader";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.statusStrip1.ResumeLayout(false);
@@ -187,6 +211,8 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.ToolStripProgressBar toolStripProgressBar1;
         private System.Windows.Forms.Button btnTest;
+        private System.Windows.Forms.DateTimePicker dpVideosFrom;
+        private System.Windows.Forms.Label label4;
     }
 }
 
