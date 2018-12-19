@@ -26,9 +26,9 @@ namespace InfoCannon {
 
         private void Form1_Load(object sender, EventArgs e) {
             List<Item> items = new List<Item>();
-            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=3&offset=0" });
-            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=3&offset=0" });
-            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=3&offset=0" });
+            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=3&offset=1" });
+            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=3&offset=1" });
+            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=3&offset=1" });
             cmbSource.DataSource = items;
             cmbSource.DisplayMember = "Text";
             cmbSource.ValueMember = "Value";
@@ -41,9 +41,7 @@ namespace InfoCannon {
             //Post to Facebook
             facebookClient = new FacebookClient();
             facebookService = new FacebookService(facebookClient);
-            var getAccountTask = facebookService.GetAccountAsync(txtAccessKey.Text);
-
-
+            //var getAccountTask = facebookService.GetAccountAsync(txtAccessKey.Text);
         }
 
         private async void btnProcess_Click(object sender, EventArgs e) {
@@ -65,6 +63,8 @@ namespace InfoCannon {
                     var postOnWallTask = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, summary, "", UploadedMedia, URL);
                     Task.WaitAll(postOnWallTask);
                 }
+
+                SetStatus(parsed.videos.Count.ToString() + " Videos Posted!");
             });
 
             //client.DownloadStringCompleted += new DownloadStringCompletedEventHandler(loadHTMLCallback);
@@ -90,6 +90,16 @@ namespace InfoCannon {
         private void clearStatus_Tick(object sender, EventArgs e) {
             toolStripStatusLabel1.Text = "";
             clearStatus.Enabled = false;
+        }
+
+        private void btnTest_Click(object sender, EventArgs e) {
+            Task.Run(() =>
+            {
+                SetStatus("Sending test post to Facebook");
+                var postOnWallTask = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, "This is a test", "");
+                Task.WaitAll(postOnWallTask);
+                SetStatus("Post Completed");
+            });
         }
     }
 }
