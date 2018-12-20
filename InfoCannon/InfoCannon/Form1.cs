@@ -28,10 +28,10 @@ namespace InfoCannon {
 
         private void Form1_Load(object sender, EventArgs e) {
             List<Item> items = new List<Item>();
-            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=25&offset=0" });
-            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=25&offset=0" });
-            items.Add(new Item() {Text = "War Room", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=25&offset=0" });
-            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=25&offset=10" });
+            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=100&offset=0" });
+            items.Add(new Item() {Text = "War Room", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=10" });
 
             cmbSource.DataSource = items;
             cmbSource.DisplayMember = "Text";
