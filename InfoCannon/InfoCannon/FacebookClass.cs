@@ -96,7 +96,13 @@ namespace InfoCannon {
             public async Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "") {
                 if (PostedVideo != "") {
                     var postVideo = UploadVideoOnWallAsync(accessToken, pageid, PostedVideo, message);
-                    Task.WaitAll(postVideo);
+                    try {
+                        Task.WaitAll(postVideo);
+                    } catch {
+
+                    }
+                    //Task[] array = new Task[] { postVideo };
+
                 } else {
                     await _facebookClient.PostAsync(accessToken, pageid = "/feed", new { message, link, attached_media });
                 }
