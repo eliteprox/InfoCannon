@@ -1,2 +1,2 @@
 # InfoCannon
-A tool for automating the upload of videos to social networks
+A tool for automating the upload of Infowars videos to Facebook
