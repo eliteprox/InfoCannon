@@ -49,6 +49,7 @@ namespace InfoCannon {
         }
 
         public class VideoToPost {
+            public string id {get; set; }
             public string title { get; set; }
             public string url { get; set; }
             public string summary { get; set; }
@@ -72,6 +73,7 @@ namespace InfoCannon {
                         DateTime createdAt = data?.createdAt;
                         if ((DateTime)createdAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null) {
                             QueuedVideos.Add(new VideoToPost() {
+                                id = data._id,
                                 title = data?.title,
                                 url = data?.directUrl,
                                 summary = data?.summary,
@@ -86,9 +88,10 @@ namespace InfoCannon {
                 QueuedVideos = QueuedVideos.OrderByDescending(x => x.createdAt).ToList();
             });
 
+            UserSettings settings = UserSettings.Load();
             int loopcount = 0;
             foreach (VideoToPost video in QueuedVideos) {
-                lstVideos.Items.Add(new ListViewItem { Text = video.title, ToolTipText = video.summary, Checked = true } );
+                lstVideos.Items.Add(new ListViewItem { Text = video.title, ToolTipText = video.summary, Checked = !settings.postedVideos.Contains(video.id) } );
                 loopcount++;
             }
 
@@ -102,6 +105,9 @@ namespace InfoCannon {
                 SelectedIndices.Add(index);
             }
 
+            btnProcess.Enabled = false;
+            btnPostVideos.Enabled = false;
+            UserSettings settings = UserSettings.Load();
             await Task.Run(() =>
             {
                 int intCount = 0;
@@ -114,12 +120,21 @@ namespace InfoCannon {
                     Task[] array = new Task[] { postOnWallTask };
                     try {
                         Task.WaitAll(array, -1);
+                        if (!settings.postedVideos.Contains(video.id)) {
+                            settings.postedVideos.Add(video.id);
+                            settings.Save();
+                        }
                     } catch {
 
                     }
                 }
                 SetStatus(SelectedIndices.Count().ToString() + " Videos Posted!");
             });
+
+            //Uncheck processed items
+            btnProcess.Enabled = true;
+            btnPostVideos.Enabled = true;
+            lstVideos.Items.OfType<ListViewItem>().Where(x=>SelectedIndices.Contains(x.Index)).ToList().ForEach(item => item.Checked = false);
         }
 
         private void btnSaveSettings_Click(object sender, EventArgs e) {
