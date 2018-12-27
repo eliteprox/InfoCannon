@@ -31,7 +31,7 @@ namespace InfoCannon {
             items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=100&offset=0" });
             items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=100&offset=0" });
             items.Add(new Item() {Text = "War Room", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
-            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=10" });
+            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=0" });
 
             cmbSource.DataSource = items;
             cmbSource.DisplayMember = "Text";
@@ -71,12 +71,15 @@ namespace InfoCannon {
                 foreach (var data in parsed.videos) {
                     try {
                         DateTime createdAt = data?.createdAt;
-                        if ((DateTime)createdAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null) {
+                        DateTime localCreatedAt = TimeZone.CurrentTimeZone.ToLocalTime((DateTime)createdAt);
+                        if (localCreatedAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null) {
+                            string title = data?.title;
+                            string summary = data?.summary;
                             QueuedVideos.Add(new VideoToPost() {
                                 id = data._id,
-                                title = data?.title,
+                                title = title,
                                 url = data?.directUrl,
-                                summary = data?.summary,
+                                summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title,"").Trim() + " #AlexJones"),
                                 createdAt = createdAt
                             });
                         }
