@@ -23,4 +23,4 @@ A tool for automating the upload of Infowars videos to Facebook
 **NOTES**:  
 1. Once you are up and running, check to make sure the app's posts are going up as "public". You need to check some settings of the page, or may have to make your app "live" in order for the posts to appear public.
 2. DO NOT submit your app for Review, under any circumstances
-3. Be ready to fight the Infowars, because we will all become a target for doing this.
+3. Have backup accounts if possible. Not sure if that can even be done anymore nowdays.
