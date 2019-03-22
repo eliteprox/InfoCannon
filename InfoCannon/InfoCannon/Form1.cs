@@ -79,7 +79,7 @@ namespace InfoCannon {
                                 id = data._id,
                                 title = title,
                                 url = data?.directUrl,
-                                summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title,"").Trim() + " #AlexJones"),
+                                summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title,"").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
                                 createdAt = createdAt
                             });
                         }
