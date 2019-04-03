@@ -19,9 +19,9 @@ A tool for automating the upload of Infowars videos to Facebook
   * pages_show_list
 7. Click **Get Access Token**.
 8. You may use this token for publishing to your own newsfeed, or to obtain a page access token, follow these additional steps:
-  1. Click **Get Token** again, 
-  2. Under the **Page Access Tokens** section, choose the name of the page you want to publish to. 
-  3. Finally, click **Get Token** again, and choose **Request_Pages**. A dialog prompt appears, click **Continue As (Your Name)**
+  8.1. Click **Get Token** again, 
+  8.2. Under the **Page Access Tokens** section, choose the name of the page you want to publish to. 
+  8.3. Finally, click **Get Token** again, and choose **Request_Pages**. A dialog prompt appears, click **Continue As (Your Name)**
   4. You will be prompted which pages you want to grant access to, leave all checked or change the selections, click **Next**.
   5. Leave both **Manage your Pages** and **Publish as Pages you manage** set to **Yes**.
   6. Click **Done**. Click **OK**.
