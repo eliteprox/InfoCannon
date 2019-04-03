@@ -13,7 +13,7 @@ A tool for automating the upload of Infowars videos to Facebook
 3. From the App Dashboard, be sure that your app is not "Live". This is controlled by a switch in the top right corner of the page. If it is, turn it off.
 4. Navigate to **Tools** > **Graph API Explorer**. Open it in a new tab.
 5. From Graph API Explorer, click **Get Token**, then choose **Get User Access Token**.
-6. From the **Select Permissions** pop-up, choose the following:
+6. From the **Select Permissions** pop-up, mark the following:
    * publish_pages
    * manage_pages
    * pages_show_list
