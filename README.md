@@ -14,22 +14,22 @@ A tool for automating the upload of Infowars videos to Facebook
 4. Navigate to **Tools** > **Graph API Explorer**. Open it in a new tab.
 5. From Graph API Explorer, click **Get Token**, then choose **Get User Access Token**.
 6. From the **Select Permissions** pop-up, choose the following:
-  * publish_pages
-  * manage_pages
-  * pages_show_list
+   * publish_pages
+   * manage_pages
+   * pages_show_list
 7. Click **Get Access Token**.
 8. You may use this token for publishing to your own newsfeed, or to obtain a page access token, follow these additional steps:
    1. Click **Get Token** again, 
    2. Under the **Page Access Tokens** section, choose the name of the page you want to publish to. 
    3. Finally, click **Get Token** again, and choose **Request_Pages**. A dialog prompt appears, click **Continue As (Your Name)**
-  4. You will be prompted which pages you want to grant access to, leave all checked or change the selections, click **Next**.
-  5. Leave both **Manage your Pages** and **Publish as Pages you manage** set to **Yes**.
-  6. Click **Done**. Click **OK**.
+   4. You will be prompted which pages you want to grant access to, leave all checked or change the selections, click **Next**.
+   5. Leave both **Manage your Pages** and **Publish as Pages you manage** set to **Yes**.
+   6. Click **Done**. Click **OK**.
 9. Copy the Access Token code generated in Graph API Explorer
 10. Open **InfoCannon** and paste the access token into the **Access Key** textbox.
 11. From InfoCannon, set the **Page ID** accordingly:
-  * If using the User Access Token to post to your own page, enter  **me**.
-  * If using a Page Access Token to post to a page you manage, obtain the **Page ID** from the **About** section of your page. This is found at the very bottom of your page's About section.
+   * If using the User Access Token to post to your own page, enter  **me**.
+   * If using a Page Access Token to post to a page you manage, obtain the **Page ID** from the **About** section of your page. This is found at the very bottom of your page's About section.
 12. From **InfoCannon**, click the **Test** button to fire off a post that simply says "This is a test". If this is successful, proceed to the next step. Keep in mind nobody can see the post at this stage except for you. However, if you do not delete the  post it will become visible once the app goes live.
 13. Click **Save** to remember the settings, they will re-appear when you open the tool. They are kept in a text file in the tool's current directory.
 
