@@ -25,7 +25,7 @@ A tool for automating the upload of Infowars videos to Facebook
    4. You will be prompted which pages you want to grant access to, leave all checked or change the selections, click **Next**.
    5. Leave both **Manage your Pages** and **Publish as Pages you manage** set to **Yes**.
    6. Click **Done**. Click **OK**.
-9. Copy the Access Token code generated in Graph API Explorer
+9. From Graph API Explorer, select and copy the **Access Token** code you generated.
 10. Open **InfoCannon** and paste the access token into the **Access Key** textbox.
 11. From InfoCannon, set the **Page ID** accordingly:
    * If using the User Access Token to post to your own page, enter  **me**.
