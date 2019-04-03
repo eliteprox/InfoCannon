@@ -30,7 +30,7 @@ A tool for automating the upload of Infowars videos to Facebook
 11. From InfoCannon, set the **Page ID** accordingly:
    * If using the User Access Token to post to your own page, enter  **me**.
    * If using a Page Access Token to post to a page you manage, obtain the **Page ID** from the **About** section of your page. This is found at the very bottom of your page's About section.
-12. From **InfoCannon**, click the **Test** button to fire off a post that simply says "This is a test". If this is successful, proceed to the next step. Keep in mind nobody can see the post at this stage except for you. However, if you do not delete the  post it will become visible once the app goes live.
+12. From InfoCannon, click the **Test** button to fire off a post that simply says "This is a test". If this is successful, proceed to the next step. Keep in mind nobody can see the post at this stage except for you. However, if you do not delete the  post it will become visible once the app goes live.
 13. Click **Save** to remember the settings, they will re-appear when you open the tool. They are kept in a text file in the tool's current directory.
 
 **Considerations**
