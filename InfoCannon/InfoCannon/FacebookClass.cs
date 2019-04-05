@@ -42,7 +42,7 @@ namespace InfoCannon {
 
         public FacebookClient() {
             _httpClient = new HttpClient {
-                BaseAddress = new Uri("https://graph.facebook.com/v2.12/")
+                BaseAddress = new Uri("https://graph.facebook.com/v3.0201/")
             };
             _httpClient.DefaultRequestHeaders
                 .Accept
