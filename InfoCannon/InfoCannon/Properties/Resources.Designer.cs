@@ -73,26 +73,6 @@ namespace InfoCannon.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap Checked1 {
-            get {
-                object obj = ResourceManager.GetObject("Checked1", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap uncheck {
-            get {
-                object obj = ResourceManager.GetObject("uncheck", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap uncheck1 {
             get {
                 object obj = ResourceManager.GetObject("uncheck1", resourceCulture);

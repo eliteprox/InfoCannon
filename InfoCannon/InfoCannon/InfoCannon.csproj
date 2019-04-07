@@ -109,7 +109,6 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <None Include="Resources\uncheck1.png" />
-    <None Include="Resources\uncheck.png" />
     <None Include="Resources\Checked.png" />
   </ItemGroup>
   <ItemGroup>

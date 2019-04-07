@@ -40,21 +40,21 @@
             this.btnPostVideos = new System.Windows.Forms.Button();
             this.lstVideos = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.txtAccessKey = new System.Windows.Forms.TextBox();
             this.lstPageID = new System.Windows.Forms.ListBox();
             this.btnAddPageID = new System.Windows.Forms.Button();
             this.btnRemovePageID = new System.Windows.Forms.Button();
-            this.btnCheckAll = new System.Windows.Forms.Button();
-            this.btnUncheckAll = new System.Windows.Forms.Button();
             this.lstSource = new System.Windows.Forms.ListBox();
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.btnUncheckAll = new System.Windows.Forms.Button();
+            this.btnCheckAll = new System.Windows.Forms.Button();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(62, 12);
+            this.label1.Location = new System.Drawing.Point(86, 12);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 2;
@@ -63,7 +63,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(68, 38);
+            this.label2.Location = new System.Drawing.Point(92, 38);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(57, 13);
             this.label2.TabIndex = 3;
@@ -71,7 +71,7 @@
             // 
             // btnSaveSettings
             // 
-            this.btnSaveSettings.Location = new System.Drawing.Point(347, 38);
+            this.btnSaveSettings.Location = new System.Drawing.Point(371, 38);
             this.btnSaveSettings.Name = "btnSaveSettings";
             this.btnSaveSettings.Size = new System.Drawing.Size(60, 23);
             this.btnSaveSettings.TabIndex = 4;
@@ -81,7 +81,7 @@
             // 
             // btnProcess
             // 
-            this.btnProcess.Location = new System.Drawing.Point(181, 214);
+            this.btnProcess.Location = new System.Drawing.Point(199, 214);
             this.btnProcess.Name = "btnProcess";
             this.btnProcess.Size = new System.Drawing.Size(112, 23);
             this.btnProcess.TabIndex = 5;
@@ -115,7 +115,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(64, 113);
+            this.label3.Location = new System.Drawing.Point(88, 113);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 13);
             this.label3.TabIndex = 8;
@@ -128,7 +128,7 @@
             // 
             // btnTest
             // 
-            this.btnTest.Location = new System.Drawing.Point(347, 9);
+            this.btnTest.Location = new System.Drawing.Point(371, 9);
             this.btnTest.Name = "btnTest";
             this.btnTest.Size = new System.Drawing.Size(60, 23);
             this.btnTest.TabIndex = 10;
@@ -138,7 +138,7 @@
             // 
             // dpVideosFrom
             // 
-            this.dpVideosFrom.Location = new System.Drawing.Point(137, 188);
+            this.dpVideosFrom.Location = new System.Drawing.Point(161, 188);
             this.dpVideosFrom.Name = "dpVideosFrom";
             this.dpVideosFrom.Size = new System.Drawing.Size(186, 20);
             this.dpVideosFrom.TabIndex = 11;
@@ -146,7 +146,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(66, 194);
+            this.label4.Location = new System.Drawing.Point(90, 194);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 12;
@@ -154,7 +154,7 @@
             // 
             // btnPostVideos
             // 
-            this.btnPostVideos.Location = new System.Drawing.Point(181, 428);
+            this.btnPostVideos.Location = new System.Drawing.Point(199, 428);
             this.btnPostVideos.Name = "btnPostVideos";
             this.btnPostVideos.Size = new System.Drawing.Size(112, 23);
             this.btnPostVideos.TabIndex = 14;
@@ -185,9 +185,14 @@
             this.columnHeader1.Text = "Select the videos you would like to publish";
             this.columnHeader1.Width = 345;
             // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Source";
+            this.columnHeader2.Width = 100;
+            // 
             // txtAccessKey
             // 
-            this.txtAccessKey.Location = new System.Drawing.Point(137, 12);
+            this.txtAccessKey.Location = new System.Drawing.Point(161, 12);
             this.txtAccessKey.Name = "txtAccessKey";
             this.txtAccessKey.Size = new System.Drawing.Size(204, 20);
             this.txtAccessKey.TabIndex = 0;
@@ -195,7 +200,7 @@
             // lstPageID
             // 
             this.lstPageID.FormattingEnabled = true;
-            this.lstPageID.Location = new System.Drawing.Point(137, 38);
+            this.lstPageID.Location = new System.Drawing.Point(161, 38);
             this.lstPageID.Name = "lstPageID";
             this.lstPageID.Size = new System.Drawing.Size(204, 82);
             this.lstPageID.TabIndex = 17;
@@ -203,7 +208,7 @@
             // 
             // btnAddPageID
             // 
-            this.btnAddPageID.Location = new System.Drawing.Point(347, 67);
+            this.btnAddPageID.Location = new System.Drawing.Point(371, 67);
             this.btnAddPageID.Name = "btnAddPageID";
             this.btnAddPageID.Size = new System.Drawing.Size(60, 23);
             this.btnAddPageID.TabIndex = 18;
@@ -213,7 +218,7 @@
             // 
             // btnRemovePageID
             // 
-            this.btnRemovePageID.Location = new System.Drawing.Point(347, 96);
+            this.btnRemovePageID.Location = new System.Drawing.Point(371, 96);
             this.btnRemovePageID.Name = "btnRemovePageID";
             this.btnRemovePageID.Size = new System.Drawing.Size(59, 23);
             this.btnRemovePageID.TabIndex = 19;
@@ -221,21 +226,14 @@
             this.btnRemovePageID.UseVisualStyleBackColor = true;
             this.btnRemovePageID.Click += new System.EventHandler(this.btnRemovePageID_Click);
             // 
-            // btnCheckAll
+            // lstSource
             // 
-            this.btnCheckAll.BackgroundImage = global::InfoCannon.Properties.Resources.Checked;
-            this.btnCheckAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnCheckAll.FlatAppearance.BorderSize = 0;
-            this.btnCheckAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.btnCheckAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCheckAll.Location = new System.Drawing.Point(13, 222);
-            this.btnCheckAll.Name = "btnCheckAll";
-            this.btnCheckAll.Size = new System.Drawing.Size(15, 15);
-            this.btnCheckAll.TabIndex = 20;
-            this.btnCheckAll.TabStop = false;
-            this.btnCheckAll.UseVisualStyleBackColor = true;
-            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
+            this.lstSource.FormattingEnabled = true;
+            this.lstSource.Location = new System.Drawing.Point(161, 126);
+            this.lstSource.Name = "lstSource";
+            this.lstSource.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lstSource.Size = new System.Drawing.Size(204, 56);
+            this.lstSource.TabIndex = 22;
             // 
             // btnUncheckAll
             // 
@@ -253,19 +251,21 @@
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
             // 
-            // lstSource
+            // btnCheckAll
             // 
-            this.lstSource.FormattingEnabled = true;
-            this.lstSource.Location = new System.Drawing.Point(137, 126);
-            this.lstSource.Name = "lstSource";
-            this.lstSource.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lstSource.Size = new System.Drawing.Size(204, 56);
-            this.lstSource.TabIndex = 22;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Source";
-            this.columnHeader2.Width = 100;
+            this.btnCheckAll.BackgroundImage = global::InfoCannon.Properties.Resources.Checked;
+            this.btnCheckAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnCheckAll.FlatAppearance.BorderSize = 0;
+            this.btnCheckAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnCheckAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCheckAll.Location = new System.Drawing.Point(13, 222);
+            this.btnCheckAll.Name = "btnCheckAll";
+            this.btnCheckAll.Size = new System.Drawing.Size(15, 15);
+            this.btnCheckAll.TabIndex = 20;
+            this.btnCheckAll.TabStop = false;
+            this.btnCheckAll.UseVisualStyleBackColor = true;
+            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
             // 
             // Form1
             // 
