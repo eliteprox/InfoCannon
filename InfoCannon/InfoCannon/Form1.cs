@@ -13,9 +13,9 @@ using System.Net;
 using Newtonsoft.Json;
 using static InfoCannon.FacebookClient;
 using System.Threading;
+//using static InfoCannon.Prompt;
 
 namespace InfoCannon {
-
 
     public partial class Form1 : Form {
         public Form1() {
@@ -33,14 +33,27 @@ namespace InfoCannon {
             items.Add(new Item() {Text = "War Room", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
             items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=0" });
 
-            cmbSource.DataSource = items;
-            cmbSource.DisplayMember = "Text";
-            cmbSource.ValueMember = "Value";
+            lstSource.DataSource = items;
+            lstSource.DisplayMember = "Text";
+            lstSource.ValueMember = "Value";
+
+            ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
+            ToolTip1.SetToolTip(this.btnUncheckAll, "Uncheck All");
+            ToolTip1.SetToolTip(this.btnCheckAll, "Check All");
+            ToolTip1.SetToolTip(this.btnSaveSettings, "Save Page IDs and Access Key to Settings File");
 
             //Locate and parse the user's settings file
             UserSettings settings = UserSettings.Load();
             txtAccessKey.Text = settings.accessCode;
-            txtPageID.Text = settings.pageId;
+            foreach (object obj in settings.pageId)
+            {
+                lstPageID.Items.Add(obj.ToString());
+            }
+
+            if (lstPageID.Items.Count > 0) {
+                lstPageID.SelectedIndex = 0;
+            }
+
             dpVideosFrom.Value = DateTime.Now;
 
             //Init Facebook Interface
@@ -53,48 +66,95 @@ namespace InfoCannon {
             public string title { get; set; }
             public string url { get; set; }
             public string summary { get; set; }
+            public string channel { get; set; }
             public DateTime createdAt { get; set; }
         }
 
+        public class PostedVideo
+        {
+            public string VideoID { get; set; }
+            public string PageID { get; set; }
+        }
+
+        public class VODResult
+        {
+            public string response { get; set; }
+            public string channel { get; set; }
+        }
+
+        //Gathers Videos from Infowars Servers
         private async void btnProcess_Click(object sender, EventArgs e) {
-            await Task.Run(() => { SetStatus("Connecting to Infowars Servers..."); });
+            if (lstPageID.Items.Count == 0) {
+                MessageBox.Show("You must select a Page ID from the list", "Error");
+                return;
+            }
+
+            if (lstPageID.SelectedItem == null) {
+                MessageBox.Show("You must select a Page ID from the list", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop );
+                return;
+            }
+            string PageID = lstPageID.SelectedItem.ToString().Trim();
+
+            if (lstSource.SelectedItems == null) {
+                MessageBox.Show("You must select at least one VOD Source to pull videos from", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+                return;
+            }
+
             var client = new WebClient();
             client.Encoding = System.Text.Encoding.UTF8;
-            var response = await client.DownloadStringTaskAsync(new Uri(cmbSource.SelectedValue.ToString()));
+            QueuedVideos = new List<VideoToPost>();
+            List<VODResult> VODResults = new List<VODResult>();
             lstVideos.Items.Clear();
-            await Task.Run(() => {
-                dynamic parsed = JsonConvert.DeserializeObject<dynamic>((string)response);
-                SetStatus("Gathering Videos...");
-                
-                //Collect videos for date
-                QueuedVideos = new List<VideoToPost>();
-                foreach (var data in parsed.videos) {
-                    try {
-                        DateTime createdAt = data?.createdAt;
-                        DateTime localCreatedAt = TimeZone.CurrentTimeZone.ToLocalTime((DateTime)createdAt);
-                        if (localCreatedAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null) {
-                            string title = data?.title;
-                            string summary = data?.summary;
-                            QueuedVideos.Add(new VideoToPost() {
-                                id = data._id,
-                                title = title,
-                                url = data?.directUrl,
-                                summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title,"").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
-                                createdAt = createdAt
-                            });
-                        }
-                    } catch {
 
+            await Task.Run(() => { SetStatus("Connecting to Infowars Servers..."); });
+            foreach (Item itm in lstSource.SelectedItems) {
+                string response = await client.DownloadStringTaskAsync(new Uri(itm.Value.ToString()));
+                VODResults.Add(new VODResult { response = response, channel = itm.Text } );
+            }
+
+            await Task.Run(() => { SetStatus("Gathering Videos..."); });
+            await Task.Run(() => {
+                foreach (VODResult result in VODResults) {
+                    dynamic parsed = JsonConvert.DeserializeObject<dynamic>((string)result.response);
+                    //Collect videos for date
+                    foreach (var data in parsed.videos)
+                    {
+                        try
+                        {
+                            DateTime createdAt = data?.createdAt;
+                            DateTime localCreatedAt = TimeZone.CurrentTimeZone.ToLocalTime((DateTime)createdAt);
+                            if (localCreatedAt.Date == dpVideosFrom.Value.Date && createdAt.Date != null)
+                            {
+                                string title = data?.title;
+                                string summary = data?.summary;
+                                QueuedVideos.Add(new VideoToPost()
+                                {
+                                    id = data._id,
+                                    title = title,
+                                    url = data?.directUrl,
+                                    summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
+                                    createdAt = createdAt,
+                                    channel = result.channel
+                                });
+                            }
+                        }
+                        catch
+                        {
+
+                        }
                     }
                 }
-
-                QueuedVideos = QueuedVideos.OrderByDescending(x => x.createdAt).ToList();
             });
+
+            QueuedVideos = QueuedVideos.OrderByDescending(x => x.createdAt).ToList();
 
             UserSettings settings = UserSettings.Load();
             int loopcount = 0;
             foreach (VideoToPost video in QueuedVideos) {
-                lstVideos.Items.Add(new ListViewItem { Text = video.title, ToolTipText = video.summary, Checked = !settings.postedVideos.Contains(video.id) } );
+                //ListViewItem item = new ListViewItem(new[] { "1", "2" });
+                //lstVideos.Items.Add(item);
+
+                lstVideos.Items.Add(new ListViewItem { Text = video.title, ToolTipText = video.summary, Checked = (!settings.postedVideos.Any(x => x.PageID == PageID && x.VideoID == video.id)), SubItems = { video.channel } });
                 loopcount++;
             }
 
@@ -102,6 +162,18 @@ namespace InfoCannon {
         }
 
         private async void btnPostVideos_Click(object sender, EventArgs e) {
+            if (lstPageID.Items.Count == 0) {
+                MessageBox.Show("You must select a Page ID from the list", "Error");
+                return;
+            }
+
+            if (lstPageID.SelectedItem == null) {
+                MessageBox.Show("You must select a Page ID from the list", "Error");
+                return;
+            }
+            string PageID = lstPageID.SelectedItem.ToString().Trim();
+            string AccessKey = txtAccessKey.Text;
+
             ListView.CheckedIndexCollection CheckedIndices = lstVideos.CheckedIndices;
             List<int> SelectedIndices = new List<int>();
             foreach (int index in CheckedIndices) {
@@ -119,12 +191,13 @@ namespace InfoCannon {
                     intCount++;
                     SetStatus("Posting Video..." + intCount.ToString() + " of " + SelectedIndices.Count().ToString() + ": " + video.title);
                     List<attached_media> UploadedMedia = new List<attached_media>();
-                    var postOnWallTask = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, video.summary, "", UploadedMedia, video.url);
+                    var postOnWallTask = facebookService.PostOnWallAsync(AccessKey, PageID, video.summary, "", UploadedMedia, video.url);
                     Task[] array = new Task[] { postOnWallTask };
                     try {
                         Task.WaitAll(array, -1);
-                        if (!settings.postedVideos.Contains(video.id)) {
-                            settings.postedVideos.Add(video.id);
+                        if (!settings.postedVideos.Any(x => x.PageID == PageID && x.VideoID == video.id))
+                        {
+                            settings.postedVideos.Add(new PostedVideo { VideoID = video.id, PageID = PageID } );
                             settings.Save();
                         }
                     } catch {
@@ -142,10 +215,14 @@ namespace InfoCannon {
 
         private void btnSaveSettings_Click(object sender, EventArgs e) {
             UserSettings settings = UserSettings.Load();
+            settings.pageId = new List<string>();
+            foreach (object obj in lstPageID.Items) {
+                settings.pageId.Add(obj.ToString());
+            }
+
             settings.accessCode = txtAccessKey.Text;
-            settings.pageId = txtPageID.Text;
             settings.Save();
-            SetStatus("Facebook Login Settings Saved");
+            SetStatus("Facebook Settings Saved");
         }
 
         public void SetStatus(string msg, bool setClear = true) {
@@ -159,10 +236,23 @@ namespace InfoCannon {
         }
 
         private void btnTest_Click(object sender, EventArgs e) {
+
+            if (lstPageID.Items.Count == 0) {
+                MessageBox.Show("You must select a Page ID from the list", "Error");
+                return;
+            }
+
+            if (lstPageID.SelectedItem == null) {
+                MessageBox.Show("You must select a Page ID from the list");
+                return;
+            }
+
+            string PageID = lstPageID.SelectedItem.ToString();
+            string AccessKey = txtAccessKey.Text;
             Task.Run(() =>
             {
                 SetStatus("Sending test post to Facebook");
-                var postOnWallTask1 = facebookService.PostOnWallAsync(txtAccessKey.Text, txtPageID.Text, "This is a test", "");
+                var postOnWallTask1 = facebookService.PostOnWallAsync(AccessKey, PageID, "This is a test", "");
                 Task.WaitAll(postOnWallTask1);
                 SetStatus("Post Completed");
             });
@@ -171,8 +261,49 @@ namespace InfoCannon {
         private void lstVideos_SelectedIndexChanged(object sender, EventArgs e) {
             //ListView.SelectedListViewItemCollection selectedvideos = lstVideos.SelectedItems[0];
             //foreach (ListViewItem item in selectedvideos) {
-
             //}
+        }
+
+        private void lstPageID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control == true && e.KeyCode == Keys.C)
+            {
+                string s = lstPageID.SelectedItem.ToString();
+                Clipboard.SetData(DataFormats.StringFormat, s);
+            }
+        }
+
+        private void btnAddPageID_Click(object sender, EventArgs e)
+        {
+            string PromptValue = Prompt.ShowDialog("The Page ID can be found at the bottom of the About section of the page.", "Enter Page ID");
+            if (PromptValue.Trim() == "")
+            {
+                //MessageBox.Show("This Page ID is empty", "Error");
+            } else if (lstPageID.Items.Contains(PromptValue)) {
+                MessageBox.Show("This Page ID already exists", "Error");
+            } else {
+                lstPageID.Items.Add(PromptValue);
+            }
+
+        }
+
+        private void btnRemovePageID_Click(object sender, EventArgs e)
+        {
+            if (lstPageID.SelectedItem == null) {
+                MessageBox.Show("You must select a Page ID from the list");
+                return;
+            }
+            lstPageID.Items.Remove(lstPageID.SelectedItem);
+        }
+
+        private void btnCheckAll_Click(object sender, EventArgs e)
+        {
+            lstVideos.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = true);
+        }
+
+        private void btnUncheckAll_Click(object sender, EventArgs e)
+        {
+            lstVideos.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = false);
         }
     }
 }

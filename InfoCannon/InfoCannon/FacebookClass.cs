@@ -22,11 +22,6 @@ namespace InfoCannon {
         public string Id { get; set; }
     }
 
-    //public class UploadedVideo
-    //{
-    //    public string Id 
-    //}
-
     public class attached_media {
         public string media_fbid { get; set; }
     }
@@ -42,7 +37,7 @@ namespace InfoCannon {
 
         public FacebookClient() {
             _httpClient = new HttpClient {
-                BaseAddress = new Uri("https://graph.facebook.com/v3.0201/")
+                BaseAddress = new Uri("https://graph.facebook.com/v3.2/")
             };
             _httpClient.DefaultRequestHeaders
                 .Accept

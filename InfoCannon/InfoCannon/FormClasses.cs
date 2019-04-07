@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using static InfoCannon.Form1;
 
 namespace InfoCannon {
 
@@ -16,8 +17,8 @@ namespace InfoCannon {
 
     public class UserSettings : AppSettings<UserSettings> {
         public string accessCode = "";
-        public string pageId = "";
-        public List<string> postedVideos = new List<string>();
+        public List<string> pageId = new List<string>();
+        public List<PostedVideo> postedVideos = new List<PostedVideo>();
     }
 
     public class AppSettings<T> where T : new() {
