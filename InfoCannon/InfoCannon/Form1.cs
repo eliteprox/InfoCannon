@@ -40,8 +40,13 @@ namespace InfoCannon {
             ToolTip ToolTip1 = new System.Windows.Forms.ToolTip();
             ToolTip1.SetToolTip(this.btnUncheckAll, "Uncheck All");
             ToolTip1.SetToolTip(this.btnCheckAll, "Check All");
+            ToolTip1.SetToolTip(this.btnTest, "Send a test message to the selected page using this access key.");
+            ToolTip1.SetToolTip(this.btnAddPageID, "Add a Page ID");
+            ToolTip1.SetToolTip(this.btnRemovePageID, "Remove selected Page ID");
+            ToolTip1.SetToolTip(this.btnProcess, "Download videos from selected VOD sources");
+            ToolTip1.SetToolTip(this.btnPostVideos, "Uploaded selected videos to selected Page ID on Facebook");
             ToolTip1.SetToolTip(this.btnSaveSettings, "Save Page IDs and Access Key to Settings File");
-
+            
             //Locate and parse the user's settings file
             UserSettings settings = UserSettings.Load();
             txtAccessKey.Text = settings.accessCode;
