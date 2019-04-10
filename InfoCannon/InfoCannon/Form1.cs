@@ -141,7 +141,7 @@ namespace InfoCannon {
                                     summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
                                     createdAt = createdAt,
                                     channel = result.channel,
-                                    thumbnail = data?.posterThumbnailUrl
+                                    thumbnail = data?.posterUrl
                                 });
                             }
                         }

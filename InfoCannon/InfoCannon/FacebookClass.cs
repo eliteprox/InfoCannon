@@ -84,21 +84,22 @@ namespace InfoCannon {
         {
             byte[] imageBytes = null;
             //Download the image content to bytes
+            Uri uri = new Uri(img_url);
             if (false == String.IsNullOrWhiteSpace(img_url)) {
                 using (var webClient = new System.Net.WebClient()) {
-                    imageBytes = webClient.DownloadData(img_url);
+                    imageBytes = webClient.DownloadData(uri);
                 }
             }
 
             //Obtain Filename
-            Uri uri = new Uri(img_url);
             string filename = System.IO.Path.GetFileName(uri.LocalPath);
+
             MemoryStream imageMemoryStream = new MemoryStream();
             imageMemoryStream.Write(imageBytes, 0, imageBytes.Length);
-
-            Image newImage = Image.FromStream(imageMemoryStream);
+            Image newImage = Image.FromStream(imageMemoryStream, true, true);
             ImageConverter _imageConverter = new ImageConverter();
             byte[] paramFileStream = (byte[])_imageConverter.ConvertTo(newImage, typeof(byte[]));
+
 
             //Formulate a Request
             var content = new MultipartFormDataContent
