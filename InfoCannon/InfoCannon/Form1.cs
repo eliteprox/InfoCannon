@@ -73,6 +73,7 @@ namespace InfoCannon {
             public string summary { get; set; }
             public string channel { get; set; }
             public DateTime createdAt { get; set; }
+            public string thumbnail { get; set; }
         }
 
         public class PostedVideo
@@ -139,7 +140,8 @@ namespace InfoCannon {
                                     url = data?.directUrl,
                                     summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
                                     createdAt = createdAt,
-                                    channel = result.channel
+                                    channel = result.channel,
+                                    thumbnail = data?.posterThumbnailUrl
                                 });
                             }
                         }
@@ -196,7 +198,7 @@ namespace InfoCannon {
                     intCount++;
                     SetStatus("Posting Video..." + intCount.ToString() + " of " + SelectedIndices.Count().ToString() + ": " + video.title);
                     List<attached_media> UploadedMedia = new List<attached_media>();
-                    var postOnWallTask = facebookService.PostOnWallAsync(AccessKey, PageID, video.summary, "", UploadedMedia, video.url);
+                    var postOnWallTask = facebookService.PostOnWallAsync(AccessKey, PageID, video.summary, "", UploadedMedia, video.url, video.title, video.thumbnail);
                     Task[] array = new Task[] { postOnWallTask };
                     try {
                         Task.WaitAll(array, -1);

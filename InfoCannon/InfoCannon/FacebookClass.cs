@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -18,7 +21,7 @@ namespace InfoCannon {
         public string Gender { get; set; }
     }
 
-    public class UploadedPhoto {
+    public class UploadedMedia {
         public string Id { get; set; }
     }
 
@@ -26,10 +29,18 @@ namespace InfoCannon {
         public string media_fbid { get; set; }
     }
 
+    public class upload_video
+    {
+        public string file_url { get; set; }
+        public string description { get; set; }
+        public string title { get; set; }
+    }
+
     public interface IFacebookClient {
         Task<T> GetAsync<T>(string accessToken, string endpoint, string args = null);
         Task<T> PostAsyncReturn<T>(string accessToken, string endpoint, object data, string args = null);
         Task PostAsync(string accessToken, string endpoint, object data, string args = null);
+        Task<T> PostASyncReturn_UploadImage<T>(string accessToken, string endpoint, upload_video data, string img_url = "", string args = null);
     }
 
     public class FacebookClient : IFacebookClient {
@@ -69,6 +80,59 @@ namespace InfoCannon {
             await _httpClient.PostAsync($"{endpoint}?access_token={accessToken}&{args}", payload);
         }
 
+        public async Task<T> PostASyncReturn_UploadImage<T>(string accessToken, string endpoint, upload_video data, string img_url = "", string args = null)
+        {
+            byte[] imageBytes = null;
+            //Download the image content to bytes
+            if (false == String.IsNullOrWhiteSpace(img_url)) {
+                using (var webClient = new System.Net.WebClient()) {
+                    imageBytes = webClient.DownloadData(img_url);
+                }
+            }
+
+            //Obtain Filename
+            Uri uri = new Uri(img_url);
+            string filename = System.IO.Path.GetFileName(uri.LocalPath);
+            MemoryStream imageMemoryStream = new MemoryStream();
+            imageMemoryStream.Write(imageBytes, 0, imageBytes.Length);
+
+            Image newImage = Image.FromStream(imageMemoryStream);
+            ImageConverter _imageConverter = new ImageConverter();
+            byte[] paramFileStream = (byte[])_imageConverter.ConvertTo(newImage, typeof(byte[]));
+
+            //Formulate a Request
+            var content = new MultipartFormDataContent
+            {
+                //send form text values here
+                 {new StringContent(data.file_url),"file_url"},
+                 {new StringContent(data.description), "description"},
+                 {new StringContent(data.title), "title"},
+            };
+
+            //Send Image Here
+            if (imageBytes != null) {
+                content.Add(new StreamContent(new MemoryStream(paramFileStream)), "thumb", filename);
+            }
+
+            var response = await _httpClient.PostAsync($"{endpoint}?access_token={accessToken}&{args}", content);
+            if (!response.IsSuccessStatusCode)
+                return default(T);
+
+            var result = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(result);
+        }
+
+        public async Task<T> PostImageAsyncReturn<T>(string accessToken, string endpoint, object data, string args = null)
+        {
+            var payload = GetPayload(data);
+            var response = await _httpClient.PostAsync($"{endpoint}?access_token={accessToken}&{args}", payload);
+            if (!response.IsSuccessStatusCode)
+                return default(T);
+
+            var result = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<T>(result);
+        }
+
         private static StringContent GetPayload(object data) {
             var json = JsonConvert.SerializeObject(data);
             return new StringContent(json, Encoding.UTF8, "application/json");
@@ -76,9 +140,9 @@ namespace InfoCannon {
 
         public interface IFacebookService {
             Task<Account> GetAccountAsync(string accessToken);
-            Task<UploadedPhoto> UploadPhotoOnWallAsync(string accessToken, string pageid = "me", string url = "", bool published = false, bool temporary = true);
-            Task<UploadedPhoto> UploadVideoOnWallAsync(string accessToken, string pageid = "me", string file_url = "", string description = "");
-            Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "");
+            Task<UploadedMedia> UploadPhotoOnWallAsync(string accessToken, string pageid = "me", string url = "", bool published = false, bool temporary = true);
+            Task<UploadedMedia> UploadVideoOnWallAsync(string accessToken, string pageid = "me", string file_url = "", string description = "", string title = "", string thumbnail = "");
+            Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "", string title = "", string thumbnail = "");
         }
 
         public class FacebookService : IFacebookService {
@@ -88,9 +152,23 @@ namespace InfoCannon {
                 _facebookClient = facebookClient;
             }
 
-            public async Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "") {
+            public async Task<UploadedMedia> UploadVideoOnWallAsync(string accessToken, string pageid = "me", string file_url = "", string description = "", string title = "", string thumbnail = "") {
+                //var result = await _facebookClient.PostAsyncReturn<dynamic>(accessToken, pageid + "/videos", new { file_url, description, title });
+                var result = await _facebookClient.PostASyncReturn_UploadImage<dynamic>(accessToken, pageid + "/videos", new upload_video {description = description, file_url = file_url, title = title }, thumbnail);
+                if (result == null) {
+                    return new UploadedMedia();
+                }
+
+                var video = new UploadedMedia {
+                    Id = result.id,
+                };
+
+                return video;
+            }
+
+            public async Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "", string title = "", string thumbnail = "") {
                 if (PostedVideo != "") {
-                    var postVideo = UploadVideoOnWallAsync(accessToken, pageid, PostedVideo, message);
+                    var postVideo = UploadVideoOnWallAsync(accessToken, pageid, PostedVideo, message, title, thumbnail);
                     try {
                         Task.WaitAll(postVideo);
                     } catch {
@@ -103,27 +181,13 @@ namespace InfoCannon {
                 }
             }
 
-            public async Task<UploadedPhoto> UploadPhotoOnWallAsync(string accessToken, string pageid = "me", string url = "", bool published = false, bool temporary = true) {
+            public async Task<UploadedMedia> UploadPhotoOnWallAsync(string accessToken, string pageid = "me", string url = "", bool published = false, bool temporary = true) {
                 var result = await _facebookClient.PostAsyncReturn<dynamic>(accessToken, pageid + "/photos", new { url, published, temporary });
-
                 if (result == null) {
-                    return new UploadedPhoto();
+                    return new UploadedMedia();
                 }
 
-                var photo = new UploadedPhoto {
-                    Id = result.id,
-                };
-
-                return photo;
-            }
-
-            public async Task<UploadedPhoto> UploadVideoOnWallAsync(string accessToken, string pageid = "me", string file_url = "", string description = "") {
-                var result = await _facebookClient.PostAsyncReturn<dynamic>(accessToken, pageid + "/videos", new { file_url, description });
-                if (result == null) {
-                    return new UploadedPhoto();
-                }
-
-                var photo = new UploadedPhoto {
+                var photo = new UploadedMedia {
                     Id = result.id,
                 };
 
