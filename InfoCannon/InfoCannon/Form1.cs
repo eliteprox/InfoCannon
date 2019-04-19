@@ -178,7 +178,13 @@ namespace InfoCannon {
             }
 
             ((Button)sender).Enabled = true;
-            toolStripStatusLabel1.Text = "";
+
+            if (QueuedVideos.Count == 0) {
+                SetStatus("No videos found");
+            } else {
+                toolStripStatusLabel1.Text = "";
+            }
+
         }
 
         private async void btnPostVideos_Click(object sender, EventArgs e) {
