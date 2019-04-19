@@ -48,6 +48,8 @@
             this.lstSource = new System.Windows.Forms.ListBox();
             this.btnUncheckAll = new System.Windows.Forms.Button();
             this.btnCheckAll = new System.Windows.Forms.Button();
+            this.txtExtraText = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,7 +117,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(88, 113);
+            this.label3.Location = new System.Drawing.Point(88, 126);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 13);
             this.label3.TabIndex = 8;
@@ -267,11 +269,32 @@
             this.btnCheckAll.UseVisualStyleBackColor = true;
             this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
             // 
+            // txtExtraText
+            // 
+            this.txtExtraText.Location = new System.Drawing.Point(371, 217);
+            this.txtExtraText.Name = "txtExtraText";
+            this.txtExtraText.Size = new System.Drawing.Size(111, 20);
+            this.txtExtraText.TabIndex = 23;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(368, 201);
+            this.label5.Name = "label5";
+            this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.label5.Size = new System.Drawing.Size(58, 13);
+            this.label5.TabIndex = 24;
+            this.label5.Text = "Extra Text:";
+            this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(494, 484);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.txtExtraText);
             this.Controls.Add(this.lstSource);
             this.Controls.Add(this.btnUncheckAll);
             this.Controls.Add(this.btnCheckAll);
@@ -328,6 +351,8 @@
         private System.Windows.Forms.Button btnUncheckAll;
         private System.Windows.Forms.ListBox lstSource;
         private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.TextBox txtExtraText;
+        private System.Windows.Forms.Label label5;
     }
 }
 

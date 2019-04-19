@@ -46,10 +46,12 @@ namespace InfoCannon {
             ToolTip1.SetToolTip(this.btnProcess, "Download videos from selected VOD sources");
             ToolTip1.SetToolTip(this.btnPostVideos, "Uploaded selected videos to selected Page ID on Facebook");
             ToolTip1.SetToolTip(this.btnSaveSettings, "Save Page IDs and Access Key to Settings File");
-            
+            ToolTip1.SetToolTip(this.txtExtraText, "This text will be added to the end of each video description, must be set before gathering videos.");
+
             //Locate and parse the user's settings file
             UserSettings settings = UserSettings.Load();
             txtAccessKey.Text = settings.accessCode;
+            txtExtraText.Text = settings.extratext;
             foreach (object obj in settings.pageId)
             {
                 lstPageID.Items.Add(obj.ToString());
@@ -100,12 +102,13 @@ namespace InfoCannon {
                 return;
             }
             string PageID = lstPageID.SelectedItem.ToString().Trim();
-
+            string ExtraText = txtExtraText.Text;
             if (lstSource.SelectedItems == null) {
                 MessageBox.Show("You must select at least one VOD Source to pull videos from", "Error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
                 return;
             }
 
+            ((Button)sender).Enabled = false;
             var client = new WebClient();
             client.Encoding = System.Text.Encoding.UTF8;
             QueuedVideos = new List<VideoToPost>();
@@ -114,12 +117,21 @@ namespace InfoCannon {
 
             await Task.Run(() => { SetStatus("Connecting to Infowars Servers..."); });
             foreach (Item itm in lstSource.SelectedItems) {
-                string response = await client.DownloadStringTaskAsync(new Uri(itm.Value.ToString()));
-                VODResults.Add(new VODResult { response = response, channel = itm.Text } );
+                try
+                {
+                    string response = await client.DownloadStringTaskAsync(new Uri(itm.Value.ToString()));
+                    VODResults.Add(new VODResult { response = response, channel = itm.Text });
+                } catch
+                {
+                    await Task.Run(() => { SetStatus("Connection to Infowars Failed...Please try again"); });
+                    ((Button)sender).Enabled = true;
+                    return;
+                }
             }
 
             await Task.Run(() => { SetStatus("Gathering Videos..."); });
             await Task.Run(() => {
+
                 foreach (VODResult result in VODResults) {
                     dynamic parsed = JsonConvert.DeserializeObject<dynamic>((string)result.response);
                     //Collect videos for date
@@ -138,7 +150,7 @@ namespace InfoCannon {
                                     id = data._id,
                                     title = title,
                                     url = data?.directUrl,
-                                    summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " #AlexJones"),
+                                    summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " " + ExtraText),
                                     createdAt = createdAt,
                                     channel = result.channel,
                                     thumbnail = data?.posterUrl
@@ -165,6 +177,7 @@ namespace InfoCannon {
                 loopcount++;
             }
 
+            ((Button)sender).Enabled = true;
             toolStripStatusLabel1.Text = "";
         }
 
@@ -227,6 +240,7 @@ namespace InfoCannon {
                 settings.pageId.Add(obj.ToString());
             }
 
+            settings.extratext = txtExtraText.Text;
             settings.accessCode = txtAccessKey.Text;
             settings.Save();
             SetStatus("Facebook Settings Saved");
@@ -311,6 +325,11 @@ namespace InfoCannon {
         private void btnUncheckAll_Click(object sender, EventArgs e)
         {
             lstVideos.Items.OfType<ListViewItem>().ToList().ForEach(item => item.Checked = false);
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

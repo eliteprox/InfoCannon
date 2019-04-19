@@ -10,17 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace InfoCannon {
-    public class Account {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Locale { get; set; }
-        public string UserName { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Gender { get; set; }
-    }
-
     public class UploadedMedia {
         public string Id { get; set; }
     }
@@ -140,7 +129,6 @@ namespace InfoCannon {
         }
 
         public interface IFacebookService {
-            Task<Account> GetAccountAsync(string accessToken);
             Task<UploadedMedia> UploadPhotoOnWallAsync(string accessToken, string pageid = "me", string url = "", bool published = false, bool temporary = true);
             Task<UploadedMedia> UploadVideoOnWallAsync(string accessToken, string pageid = "me", string file_url = "", string description = "", string title = "", string thumbnail = "");
             Task PostOnWallAsync(string accessToken, string pageid = "me", string message = "", string link = "", List<attached_media> attached_media = null, string PostedVideo = "", string title = "", string thumbnail = "");
@@ -175,7 +163,6 @@ namespace InfoCannon {
                     } catch {
 
                     }
-                    //Task[] array = new Task[] { postVideo };
 
                 } else {
                     await _facebookClient.PostAsync(accessToken, pageid = "/feed", new { message, link, attached_media });
@@ -200,26 +187,6 @@ namespace InfoCannon {
 
             //public async Task PostOnGroup(string accessToken, string groupid, string message)
             //   => await _facebookClient.PostAsync(accessToken, groupid + "/feed", new { message });
-
-            public async Task<Account> GetAccountAsync(string accessToken) {
-                var result = await _facebookClient.GetAsync<dynamic>(accessToken, "me", "fields=id,name,email,first_name,last_name,age_range,birthday,gender,locale");
-
-                if (result == null) {
-                    return new Account();
-                }
-
-                var account = new Account {
-                    Id = result.id,
-                    Email = result.email,
-                    Name = result.name,
-                    UserName = result.username,
-                    FirstName = result.first_name,
-                    LastName = result.last_name,
-                    Locale = result.locale
-                };
-
-                return account;
-            }
         }
     }
 }

@@ -17,6 +17,7 @@ namespace InfoCannon {
 
     public class UserSettings : AppSettings<UserSettings> {
         public string accessCode = "";
+        public string extratext = "#AlexJones";
         public List<string> pageId = new List<string>();
         public List<PostedVideo> postedVideos = new List<PostedVideo>();
     }
