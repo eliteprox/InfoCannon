@@ -28,10 +28,10 @@ namespace InfoCannon {
 
         private void Form1_Load(object sender, EventArgs e) {
             List<Item> items = new List<Item>();
-            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://vod-api.infowars.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=100&offset=0" });
-            items.Add(new Item() { Text = "David Knight", Value = "https://vod-api.infowars.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=100&offset=0" });
-            items.Add(new Item() {Text = "War Room", Value = "https://vod-api.infowars.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
-            items.Add(new Item() { Text = "Special Reports", Value = "https://vod-api.infowars.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "Alex Jones Show", Value = "https://api.infowarsmedia.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "David Knight", Value = "https://api.infowarsmedia.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=100&offset=0" });
+            items.Add(new Item() {Text = "War Room", Value = "https://api.infowarsmedia.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "Special Reports", Value = "https://api.infowarsmedia.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=0" });
 
             lstSource.DataSource = items;
             lstSource.DisplayMember = "Text";
@@ -109,6 +109,7 @@ namespace InfoCannon {
             }
 
             ((Button)sender).Enabled = false;
+            lstSource.Enabled = false;
             var client = new WebClient();
             client.Encoding = System.Text.Encoding.UTF8;
             QueuedVideos = new List<VideoToPost>();
@@ -125,6 +126,7 @@ namespace InfoCannon {
                 {
                     await Task.Run(() => { SetStatus("Connection to Infowars Failed...Please try again"); });
                     ((Button)sender).Enabled = true;
+                    lstSource.Enabled = true;
                     return;
                 }
             }
@@ -178,6 +180,7 @@ namespace InfoCannon {
             }
 
             ((Button)sender).Enabled = true;
+            lstSource.Enabled = true;
 
             if (QueuedVideos.Count == 0) {
                 SetStatus("No videos found");
