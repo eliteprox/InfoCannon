@@ -71,16 +71,16 @@ namespace InfoCannon {
 
         public async Task<T> PostASyncReturn_UploadImage<T>(string accessToken, string endpoint, upload_video data, string img_url = "", string args = null)
         {
-            byte[] imageBytes = null;
             //Download the image content to bytes
-            Uri uri = new Uri(img_url);
+            byte[] imageBytes = null;
             if (false == String.IsNullOrWhiteSpace(img_url)) {
                 using (var webClient = new System.Net.WebClient()) {
-                    imageBytes = webClient.DownloadData(uri);
+                    imageBytes = webClient.DownloadData(img_url);
                 }
             }
 
             //Obtain Filename
+            Uri uri = new Uri(img_url);
             string filename = System.IO.Path.GetFileName(uri.LocalPath);
 
             MemoryStream imageMemoryStream = new MemoryStream();

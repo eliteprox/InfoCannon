@@ -30,7 +30,7 @@ namespace InfoCannon {
             List<Item> items = new List<Item>();
             items.Add(new Item() { Text = "Alex Jones Show", Value = "https://api.infowarsmedia.com/api/channel/5b885d33e6646a0015a6fa2d/videos?limit=100&offset=0" });
             items.Add(new Item() { Text = "David Knight", Value = "https://api.infowarsmedia.com/api/channel/5b92d71e03deea35a4c6cdef/videos?limit=100&offset=0" });
-            items.Add(new Item() {Text = "War Room", Value = "https://api.infowarsmedia.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
+            items.Add(new Item() { Text = "War Room", Value = "https://api.infowarsmedia.com/api/channel/5b9301172abf762e22bc22fd/videos?limit=100&offset=0" });
             items.Add(new Item() { Text = "Special Reports", Value = "https://api.infowarsmedia.com/api/channel/5b9429906a1af769bc31efeb/videos?limit=100&offset=0" });
 
             lstSource.DataSource = items;
@@ -155,7 +155,7 @@ namespace InfoCannon {
                                     summary = (title.Trim() + Environment.NewLine + Environment.NewLine + summary.Replace(title, "").Replace("<br>", Environment.NewLine).Replace(Environment.NewLine + Environment.NewLine, "").Trim() + " " + ExtraText),
                                     createdAt = createdAt,
                                     channel = result.channel,
-                                    thumbnail = data?.posterUrl
+                                    thumbnail = data?.posterLargeUrl
                                 });
                             }
                         }
