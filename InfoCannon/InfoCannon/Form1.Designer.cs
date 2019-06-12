@@ -83,9 +83,9 @@
             // 
             // btnProcess
             // 
-            this.btnProcess.Location = new System.Drawing.Point(199, 214);
+            this.btnProcess.Location = new System.Drawing.Point(198, 232);
             this.btnProcess.Name = "btnProcess";
-            this.btnProcess.Size = new System.Drawing.Size(112, 23);
+            this.btnProcess.Size = new System.Drawing.Size(113, 23);
             this.btnProcess.TabIndex = 5;
             this.btnProcess.Text = "Gather Videos";
             this.btnProcess.UseVisualStyleBackColor = true;
@@ -96,7 +96,7 @@
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1,
             this.toolStripProgressBar1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 462);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 475);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(494, 22);
             this.statusStrip1.SizingGrip = false;
@@ -140,7 +140,7 @@
             // 
             // dpVideosFrom
             // 
-            this.dpVideosFrom.Location = new System.Drawing.Point(161, 188);
+            this.dpVideosFrom.Location = new System.Drawing.Point(161, 205);
             this.dpVideosFrom.Name = "dpVideosFrom";
             this.dpVideosFrom.Size = new System.Drawing.Size(186, 20);
             this.dpVideosFrom.TabIndex = 11;
@@ -148,7 +148,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(90, 194);
+            this.label4.Location = new System.Drawing.Point(90, 211);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 13);
             this.label4.TabIndex = 12;
@@ -156,9 +156,9 @@
             // 
             // btnPostVideos
             // 
-            this.btnPostVideos.Location = new System.Drawing.Point(199, 428);
+            this.btnPostVideos.Location = new System.Drawing.Point(198, 446);
             this.btnPostVideos.Name = "btnPostVideos";
-            this.btnPostVideos.Size = new System.Drawing.Size(112, 23);
+            this.btnPostVideos.Size = new System.Drawing.Size(113, 23);
             this.btnPostVideos.TabIndex = 14;
             this.btnPostVideos.Text = "Post Videos";
             this.btnPostVideos.UseVisualStyleBackColor = true;
@@ -173,11 +173,11 @@
             this.columnHeader2});
             this.lstVideos.GridLines = true;
             this.lstVideos.HideSelection = false;
-            this.lstVideos.Location = new System.Drawing.Point(13, 243);
+            this.lstVideos.Location = new System.Drawing.Point(12, 261);
             this.lstVideos.MultiSelect = false;
             this.lstVideos.Name = "lstVideos";
             this.lstVideos.ShowItemToolTips = true;
-            this.lstVideos.Size = new System.Drawing.Size(469, 179);
+            this.lstVideos.Size = new System.Drawing.Size(470, 179);
             this.lstVideos.TabIndex = 16;
             this.lstVideos.UseCompatibleStateImageBehavior = false;
             this.lstVideos.View = System.Windows.Forms.View.Details;
@@ -234,7 +234,7 @@
             this.lstSource.Location = new System.Drawing.Point(161, 126);
             this.lstSource.Name = "lstSource";
             this.lstSource.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
-            this.lstSource.Size = new System.Drawing.Size(204, 56);
+            this.lstSource.Size = new System.Drawing.Size(204, 69);
             this.lstSource.TabIndex = 22;
             // 
             // btnUncheckAll
@@ -245,9 +245,9 @@
             this.btnUncheckAll.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.btnUncheckAll.FlatAppearance.BorderSize = 0;
             this.btnUncheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnUncheckAll.Location = new System.Drawing.Point(34, 222);
+            this.btnUncheckAll.Location = new System.Drawing.Point(33, 240);
             this.btnUncheckAll.Name = "btnUncheckAll";
-            this.btnUncheckAll.Size = new System.Drawing.Size(15, 15);
+            this.btnUncheckAll.Size = new System.Drawing.Size(16, 15);
             this.btnUncheckAll.TabIndex = 21;
             this.btnUncheckAll.TabStop = false;
             this.btnUncheckAll.UseVisualStyleBackColor = true;
@@ -261,9 +261,9 @@
             this.btnCheckAll.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.btnCheckAll.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnCheckAll.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCheckAll.Location = new System.Drawing.Point(13, 222);
+            this.btnCheckAll.Location = new System.Drawing.Point(12, 240);
             this.btnCheckAll.Name = "btnCheckAll";
-            this.btnCheckAll.Size = new System.Drawing.Size(15, 15);
+            this.btnCheckAll.Size = new System.Drawing.Size(16, 15);
             this.btnCheckAll.TabIndex = 20;
             this.btnCheckAll.TabStop = false;
             this.btnCheckAll.UseVisualStyleBackColor = true;
@@ -271,15 +271,15 @@
             // 
             // txtExtraText
             // 
-            this.txtExtraText.Location = new System.Drawing.Point(371, 217);
+            this.txtExtraText.Location = new System.Drawing.Point(370, 235);
             this.txtExtraText.Name = "txtExtraText";
-            this.txtExtraText.Size = new System.Drawing.Size(111, 20);
+            this.txtExtraText.Size = new System.Drawing.Size(112, 20);
             this.txtExtraText.TabIndex = 23;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(368, 201);
+            this.label5.Location = new System.Drawing.Point(368, 218);
             this.label5.Name = "label5";
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.label5.Size = new System.Drawing.Size(58, 13);
@@ -292,7 +292,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(494, 484);
+            this.ClientSize = new System.Drawing.Size(494, 497);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.txtExtraText);
             this.Controls.Add(this.lstSource);
