@@ -5,7 +5,7 @@ A tool for automating the upload of Infowars videos to Facebook
 **Tool Name**: InfoCannon  
 **Source Code**: https://github.com/PatriotDevOps/InfoCannon  
 **Language**: C# .Net 4.5 WinForms  
-**Use Case**: Mass upload Infowars show archives and Special Reports into Facebook daily. For use on personal newsfeed or public page.  RIP [Infowars Live Feed](https://facebook.com/infowarslivefeed)  
+**Use Case**: Mass upload Infowars show archives and Special Reports into Facebook daily. For use on personal newsfeed or public page.
 
 **Configuration Directions**:  
 1. Go to [developers.facebook.com](https://developers.facebook.com) and Create a Facebook App. 
