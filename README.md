@@ -5,14 +5,14 @@ A tool for automating the upload of Infowars videos to Facebook
 **Tool Name**: InfoCannon  
 **Source Code**: https://github.com/PatriotDevOps/InfoCannon  
 **Language**: C# .Net 4.5 WinForms  
-**Use Case**: Mass upload Infowars show archives and Special Reports into Facebook daily. For use on personal newsfeed or public page.  RIP [Infowars Live Feed](https://facebook.com/infowarslivefeed)  
+**Use Case**: Mass upload Infowars show archives and Special Reports into Facebook daily. For use on personal newsfeed or public page.
 
 **Configuration Directions**:  
 1. Go to [developers.facebook.com](https://developers.facebook.com) and Create a Facebook App. 
   1. Name the app something like "video uploader"
   2. Provide a contact email (same as account email).
   3. When asked to choose a scenario/use case use **Pages API**.
-  4. After creating your app, be sure to create & add a Privacy Policy URL, this is required in order to make it live. You can generate one at https://www.termsfeed.com/privacy-policy-generator/. This URL will go on the **Basic** tab of you App Dashboard page.
+  4. After creating your app, be sure to create & add a Privacy Policy URL, this is required in order to make it live. You can generate one at https://www.termsfeed.com/privacy-policy-generator/. This URL will go on the **Basic** tab of your App Dashboard page.
 2. After you create your app you should be on the App Dashboard page. If you need help finding it, go here and click on your app: https://developers.facebook.com/apps/
 3. From the App Dashboard, be sure that your app is not "Live". This is controlled by a switch in the top right corner of the page. If it is, turn it off.
 4. Navigate to **Tools** > **Graph API Explorer**. Open it in a new tab.
