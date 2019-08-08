@@ -55,6 +55,7 @@ You will need to repeat the above steps 4-12 each time that you make the app "li
 3. If you ever want to remove ALL the videos uploaded, you can do so by deleting the app from developers.facebok.com. Conversely, do not delete the app unless you intend to lose all videos uploaded by InfoCannon. This can be useful if you need to "go dark" quickly.
 
 Latest Screenshot of the Tool's primary interface:
+
 ![alt text](http://citizenmedia.news/upload/InfoCannon.png "InfoCannon Screenshot")
 
 
